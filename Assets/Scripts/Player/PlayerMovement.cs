@@ -49,6 +49,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.M)){
+            AudioManager.PlaySound("sound");
+        }
+        if (Input.GetKeyDown(KeyCode.P)) {
+            AudioManager.Pause();
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            AudioManager.Resume();
+        }
         Gravity();
         Move();
     }
@@ -110,8 +120,8 @@ public class PlayerMovement : MonoBehaviour
     private void OnGUI()
     {
         GUI.Label(new Rect(10, 10, 1000, 20), $"Grounded: {IsGrounded}");
-        GUI.Label(new Rect(10, 35, 1000, 20), $"Movement Vector: {movement.ReadValue<Vector2>()}");
-        GUI.Label(new Rect(10, 55, 1000, 20), $"Movement State - {movementState}, Speed - {movementSpeed}");
+        GUI.Label(new Rect(10, 30, 1000, 20), $"Movement Vector: {movement.ReadValue<Vector2>()}");
+        GUI.Label(new Rect(10, 50, 1000, 20), $"Movement State - {movementState}, Speed - {movementSpeed}");
         //GUI.Label(new Rect(10, 20, 1000, 20), "Gravity - "+gravityMovement.y.ToString());
     }
     private void OnDrawGizmos()
