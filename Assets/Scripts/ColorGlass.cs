@@ -9,7 +9,7 @@ public class ColorGlass : MonoBehaviour
     {
         Red,Green,Blue
     }
-    [SerializeField] private ColorState color;
+    [SerializeField] private ColorState color = ColorState.Red;
 
     [SerializeField] private List<GameObject> cubes;
     private Camera gunCamera;
@@ -17,7 +17,7 @@ public class ColorGlass : MonoBehaviour
 
     [SerializeField] private Material color1;
     [SerializeField] private Material color2;
-    [SerializeField] private Cube obj1;
+    private Cube obj1;
     private Cube obj2;
     private void Awake()
     {
@@ -33,25 +33,39 @@ public class ColorGlass : MonoBehaviour
         gunCamera=Camera.main;
         cubes.AddRange(GameObject.FindGameObjectsWithTag("Red"));
         cubes.AddRange(GameObject.FindGameObjectsWithTag("Green"));
-        //cubes.AddRange(GameObject.FindGameObjectsWithTag("Blue"));
-        CubeSwapColors("Red", "Green");
+        cubes.AddRange(GameObject.FindGameObjectsWithTag("Blue"));
+
+        CubeSwapColors(color.ToString());
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (color == ColorState.Red)
-            {
-                color = ColorState.Green;
-                CubeSwapColors("Green", "Red");
-            }
-            else
-            {
-                color = ColorState.Red;
-                CubeSwapColors("Red", "Green");
-            }
+            NextColor();
+            CubeSwapColors(color.ToString());
         }
+    }
+    private void NextColor()
+    {
+        if (color == ColorState.Red)
+        {
+            color = ColorState.Green;
+            return;
+        }
+
+        if (color == ColorState.Green)
+        {
+            color = ColorState.Blue;
+            return;
+        }
+
+        if (color == ColorState.Blue)
+        {
+            color = ColorState.Red;
+            return;
+        }
+        Debug.Log($"Swap to {color}");
     }
     private void ColorShot(InputAction.CallbackContext obj)
     {
@@ -83,22 +97,22 @@ public class ColorGlass : MonoBehaviour
         obj1.tag = obj2.tag;
         obj2.tag = temp;
 
-        CubeSwapColors(obj2.tag, obj1.tag);
+        CubeSwapColors(color.ToString());
 
         obj1 = null; obj2=null;
         color1 = null; color2 = null;
     }
-    private void CubeSwapColors(string tag1, string tag2)
+    private void CubeSwapColors(string tag1)
     {
         foreach(GameObject cube in cubes)
         {
             if(cube.tag == tag1)
             {
-                cube.gameObject.SetActive(false);
-            }
-            if (cube.tag == tag2)
-            {
                 cube.gameObject.SetActive(true);
+            }
+            else
+            {
+                cube.gameObject.SetActive(false);
             }
         }
     }
