@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private enum MovementState
     {
-        Walk, Run, Crouch, Jump, Fall
+        Walk, Run, Crouch, Jump, Fall,Pad,Push
     }
 
     [Header("Movement")]
@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [Space]
 
     [SerializeField] private float jumpHeight;
+    [SerializeField] private float blueJumpHeight;
     [SerializeField] private float gravity;
 
     private Vector3 movementDirection;
@@ -59,6 +60,10 @@ public class PlayerMovement : MonoBehaviour
         {
             AudioManager.Resume();
         }
+
+        if(movementState == MovementState.Pad) {
+            gravityMovement.y = Mathf.Sqrt(blueJumpHeight * -2 * gravity);
+        }
         Gravity();
         Move();
     }
@@ -71,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
             movementState = MovementState.Run;
             movementSpeed = runSpeed;
         }
-        else if (IsGrounded)
+        else if (IsGrounded && movementState != MovementState.Pad && movementState != MovementState.Push /*&& movementState != MovementState.Slime*/)
         {
             movementState = MovementState.Walk;
             movementSpeed = walkSpeed;
@@ -117,6 +122,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
     private bool IsGrounded => Physics.CheckSphere(groundPosition.position, groundDistance, groundMask);
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.tag == "Blue")
+        {
+            movementState = MovementState.Pad;
+        }
+        if(hit.gameObject.tag == "Red")
+        {
+            movementState = MovementState.Push;
+        }
+        //if (hit.gameObject.tag == "Green")
+        //{
+        //    movementState = MovementState.Slime;
+        //}
+    }
     private void OnGUI()
     {
         GUI.Label(new Rect(10, 10, 1000, 20), $"Grounded: {IsGrounded}");

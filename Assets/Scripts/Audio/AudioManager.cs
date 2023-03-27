@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
+    [SerializeField] private AudioSettings settings;
     private static AudioSource _music;
     private static AudioSource _sounds;
 
@@ -30,11 +31,13 @@ public class AudioManager : MonoBehaviour
         music.AddComponent<AudioSource>();
         music.transform.SetParent(transform);
         _music = music.GetComponent<AudioSource>();
+        _music.outputAudioMixerGroup = settings.MusicMixerGroup;
 
         GameObject sound = new GameObject("Sounds");
         sound.AddComponent<AudioSource>();
         sound.transform.SetParent(transform);
         _sounds = sound.GetComponent<AudioSource>();
+        _sounds.outputAudioMixerGroup = settings.SoundsMixerGroup;
     }
     public static void PlaySound(string soundName)
     {

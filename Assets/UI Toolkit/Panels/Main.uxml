@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Styles/main_menu_label.uss?fileID=7433441132597879392&amp;guid=f0f0aae21e58a12408839679056c4d42&amp;type=3#main_menu_label" />
+    <ui:VisualElement name="Panel" style="flex-grow: 1; background-color: rgb(255, 255, 255); flex-direction: column-reverse; justify-content: center; background-image: url(&apos;project://database/Assets/image%206.png?fileID=2800000&amp;guid=9c4ba3e506154a24d881c5cd9fc072d6&amp;type=3#image 6&apos;);">
+        <ui:VisualElement name="SidePanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.43); width: 30%; justify-content: flex-end; align-items: stretch; padding-top: 0; margin-left: 0; flex-direction: column; margin-bottom: 0; padding-left: 110px; padding-bottom: 100px;">
+            <ui:Label tabindex="-1" text="ИГРАТЬ" display-tooltip-when-elided="true" name="Play" focusable="true" class="label_main_menu" style="flex-direction: column;" />
+            <ui:Label tabindex="-1" text="НАСТРОЙКИ" display-tooltip-when-elided="true" name="Settings" class="label_main_menu" />
+            <ui:VisualElement name="Line" style="background-color: rgb(255, 255, 255); height: 2px; width: 70px; margin-top: 20px; margin-bottom: 20px; margin-left: 0; margin-right: 0;" />
+            <ui:Label tabindex="-1" text="ВЫХОД" display-tooltip-when-elided="true" name="Exit" class="label_main_menu" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

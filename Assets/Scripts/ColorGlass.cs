@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,9 +6,13 @@ public class ColorGlass : MonoBehaviour
 {
     public enum ColorState
     {
-        Red,Green,Blue
+        White, Green,Red,Blue,Yellow
     }
-    [SerializeField] private ColorState color = ColorState.Red;
+
+
+    [SerializeField] private ColorState color = ColorState.White;
+    [SerializeField] private ColorState[] colors;
+
 
     [SerializeField] private List<GameObject> cubes;
     private Camera gunCamera;
@@ -19,73 +22,83 @@ public class ColorGlass : MonoBehaviour
     [SerializeField] private Material color2;
     private Cube obj1;
     private Cube obj2;
+
     private void Awake()
     {
         inputActions = new PlayerInputActions();
     }
     private void OnEnable()
     {
-        inputActions.Player.Fire.performed += ColorShot;
-        inputActions.Player.Fire.Enable();
+        inputActions.Player.FirsColor.performed += SelectFirstColor;
+        inputActions.Player.FirsColor.Enable();
+
+        inputActions.Player.SecondColor.performed += SelectSecondColor;
+        inputActions.Player.SecondColor.Enable();
     }
     private void Start()
     {
         gunCamera=Camera.main;
-        cubes.AddRange(GameObject.FindGameObjectsWithTag("Red"));
-        cubes.AddRange(GameObject.FindGameObjectsWithTag("Green"));
-        cubes.AddRange(GameObject.FindGameObjectsWithTag("Blue"));
+        FindAllObjectsWithTag();
 
         CubeSwapColors(color.ToString());
+    }
+
+    private void FindAllObjectsWithTag()
+    {
+        foreach(var colorTag in colors)
+        {
+            cubes.AddRange(GameObject.FindGameObjectsWithTag(colorTag.ToString()));
+        }
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            NextColor();
+            color=NextEnumColor(color);
             CubeSwapColors(color.ToString());
         }
     }
-    private void NextColor()
+    private ColorState NextEnumColor(ColorState state)
     {
-        if (color == ColorState.Red)
+        switch (state)
         {
-            color = ColorState.Green;
-            return;
+            case ColorState.White: return ColorState.Green;
+            case ColorState.Green: return ColorState.White;
+            case ColorState.Red: return ColorState.Blue;
+            case ColorState.Blue: return ColorState.Yellow;
+            case ColorState.Yellow: return ColorState.White;
+            default: return ColorState.White;
         }
-
-        if (color == ColorState.Green)
-        {
-            color = ColorState.Blue;
-            return;
-        }
-
-        if (color == ColorState.Blue)
-        {
-            color = ColorState.Red;
-            return;
-        }
-        Debug.Log($"Swap to {color}");
     }
-    private void ColorShot(InputAction.CallbackContext obj)
+    private void SelectFirstColor(InputAction.CallbackContext obj)
     {
         RaycastHit hit;
         if (Physics.Raycast(gunCamera.transform.position, gunCamera.transform.forward, out hit))
         {
             if (hit.collider.TryGetComponent(out Cube target))
             {
-                if(color1 == null)
-                {
-                    color1 = target.Color;
-                    obj1 = target;
-                }
-                else
-                {
-                    color2 = target.Color;
-                    obj2 = target;
-                    SwapColors();
-                }
+                color1 = target.Color;
+                obj1 = target;
             }
+        }
+    }
+
+    private void SelectSecondColor(InputAction.CallbackContext obj)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(gunCamera.transform.position, gunCamera.transform.forward, out hit))
+        {
+            if (hit.collider.TryGetComponent(out Cube target))
+            {
+                color2 = target.Color;
+                obj2 = target;
+                
+            }
+        }
+        if(color1 != null && color2 != null)
+        {
+            SwapColors();
         }
     }
     private void SwapColors()
@@ -115,5 +128,10 @@ public class ColorGlass : MonoBehaviour
                 cube.gameObject.SetActive(false);
             }
         }
+    }
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(0, 100, 1000, 20), $"First - {color1}, Second - {color2}");
+
     }
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7138781066126363692}
   m_Layer: 6
   m_Name: _Cube
-  m_TagString: Untagged
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5965464156831753519
 MonoBehaviour:
@@ -337,3 +337,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63304f5c52576c941b526ce63498900f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 3
+  up: 5
