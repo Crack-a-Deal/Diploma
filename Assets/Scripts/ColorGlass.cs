@@ -9,7 +9,6 @@ public class ColorGlass : MonoBehaviour
         White, Green,Red,Blue,Yellow
     }
 
-
     [SerializeField] private ColorState color = ColorState.White;
     [SerializeField] private ColorState[] colors;
 
@@ -20,6 +19,7 @@ public class ColorGlass : MonoBehaviour
 
     [SerializeField] private Material color1;
     [SerializeField] private Material color2;
+    [SerializeField] private float transparency;
     private Cube obj1;
     private Cube obj2;
 
@@ -121,12 +121,70 @@ public class ColorGlass : MonoBehaviour
         {
             if(cube.tag == tag1)
             {
-                cube.gameObject.SetActive(true);
+                MeshRenderer mr = cube.GetComponent<MeshRenderer>();
+                Color col = mr.material.color;
+                col.a = 1;
+                mr.material.color = col;
+                SetupMaterialWithBlendMode(mr.material, RenderingMode.Opaque);
+
+                //if (!cube.TryGetComponent(out MeshCollider collider))
+                //{
+                //    cube.AddComponent<MeshCollider>();
+                //}
+                cube.layer = 6;
             }
             else
             {
-                cube.gameObject.SetActive(false);
+                MeshRenderer mr = cube.GetComponent<MeshRenderer>();
+                Color col = mr.material.color;
+                col.a = transparency;
+                mr.material.color = col;
+                SetupMaterialWithBlendMode(mr.material, RenderingMode.Transparent);
+                cube.layer = 4;
+                //MeshCollider collider = cube.GetComponent<MeshCollider>();
+                //Destroy(collider);
             }
+        }
+    }
+
+    public enum RenderingMode
+    {
+        Opaque,
+        Cutout,
+        Fade,
+        Transparent
+    }
+
+    public void SetupMaterialWithBlendMode(Material material, RenderingMode renderingMode)
+    {
+        switch (renderingMode)
+        {
+            case RenderingMode.Opaque:
+                material.SetFloat("_Mode", 0);
+                material.SetOverrideTag("RenderType", "");
+                material.SetInt("_BlendOp", (int)UnityEngine.Rendering.BlendOp.Add);
+                material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+                material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+                material.SetInt("_ZWrite", 1);
+                material.DisableKeyword("_ALPHATEST_ON");
+                material.DisableKeyword("_ALPHABLEND_ON");
+                material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                material.DisableKeyword("_ALPHAMODULATE_ON");
+                material.renderQueue = -1;
+                break;
+            case RenderingMode.Transparent:
+                material.SetFloat("_Mode", 3);
+                material.SetOverrideTag("RenderType", "Transparent");
+                material.SetInt("_BlendOp", (int)UnityEngine.Rendering.BlendOp.Add);
+                material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+                material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                material.SetInt("_ZWrite", 0);
+                material.DisableKeyword("_ALPHATEST_ON");
+                material.DisableKeyword("_ALPHABLEND_ON");
+                material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
+                material.DisableKeyword("_ALPHAMODULATE_ON");
+                material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+                break;
         }
     }
     private void OnGUI()

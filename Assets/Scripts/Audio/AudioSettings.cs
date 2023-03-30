@@ -8,7 +8,7 @@ public class AudioSettings : MonoBehaviour
     [SerializeField] private AudioMixer mixer;
     [SerializeField] public AudioMixerGroup MusicMixerGroup;
     [SerializeField] public AudioMixerGroup SoundsMixerGroup;
-    public void SetMainVolume(float volume)
+    public void SetMasterVolume(float volume)
     {
         mixer.SetFloat("MainVolume", Mathf.Log10(volume) * 20);
     }

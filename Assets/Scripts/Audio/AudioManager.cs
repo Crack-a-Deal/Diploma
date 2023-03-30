@@ -7,7 +7,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
-    [SerializeField] private AudioSettings settings;
+    public static AudioSettings settings;
     private static AudioSource _music;
     private static AudioSource _sounds;
 
@@ -20,6 +20,8 @@ public class AudioManager : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
+
+        settings = GetComponent<AudioSettings>();
 
         InitializeAudioSources();
 

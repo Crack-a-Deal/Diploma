@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,12 @@ public class PauseController : MonoBehaviour
 {
     private GameState gameState=GameState.Gameplay;
     private bool gameIsPaused = false;
+
+    public static Action OnPause;
+    public static Action OnResume;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             gameIsPaused = !gameIsPaused;
             PauseGame();
@@ -20,17 +24,15 @@ public class PauseController : MonoBehaviour
         {
             gameState = GameState.Pause;
             Time.timeScale = 0f;
+            OnPause?.Invoke();
         }
         else
         {
             gameState = GameState.Gameplay;
             Time.timeScale = 1;
+            OnResume?.Invoke();
         }
-    }
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(10, 90, 1000, 20), $"Pause state - {gameState}");
-    }
+    }  
 }
 
 public enum GameState

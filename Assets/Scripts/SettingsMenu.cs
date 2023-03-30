@@ -19,7 +19,7 @@ public class SettingsMenu : MonoBehaviour
 
         mainVolumeSlider.RegisterValueChangedCallback(evt =>
         {
-            audioSettings.SetMainVolume(evt.newValue);
+            audioSettings.SetMasterVolume(evt.newValue);
         });
         musicVolumeSlider.RegisterValueChangedCallback(evt =>
         {

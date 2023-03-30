@@ -9,9 +9,14 @@ public class PlayerCamera : MonoBehaviour
     private Vector2 mouseRotation;
     [SerializeField] private bool isCursorLock;
 
+    private void Awake()
+    {
+        PauseController.OnPause += ShowCursor;
+        PauseController.OnResume += ShowCursor;
+    }
     private void Start()
     {
-        Cursor.lockState = isCursorLock ? CursorLockMode.Locked : CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
@@ -26,5 +31,10 @@ public class PlayerCamera : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(mouseRotation.x, mouseRotation.y, 0);
         orientation.rotation = Quaternion.Euler(0, mouseRotation.y, 0);
+    }
+    private void ShowCursor()
+    {
+        isCursorLock = !isCursorLock;
+        Cursor.lockState = isCursorLock ? CursorLockMode.Locked : CursorLockMode.Confined;
     }
 }

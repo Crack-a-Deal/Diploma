@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
 
     private VisualElement _mainMenu;
     private VisualElement _settings;
-    private void Awake()
+    private void Start()
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
@@ -32,11 +32,16 @@ public class MainMenu : MonoBehaviour
         l_play.RegisterCallback<ClickEvent>(evt => SceneManager.LoadScene(1));
         l_settings.RegisterCallback<ClickEvent>(evt => SetupSettings(true));
         l_back.RegisterCallback<ClickEvent>(evt => SetupSettings(false));
-        l_exit.RegisterCallback<ClickEvent>(evt => Debug.Log("Exit"));
+        l_exit.RegisterCallback<ClickEvent>(evt => Application.Quit());
+
+        SetupSettingsMenu();
+    }
+    private void SetupSettingsMenu()
+    {
+        SettingsPanel settingsPanel = new SettingsPanel(_settings);
     }
     private void SetupSettings(bool enable)
     {
-        Debug.Log("Settings");
         _mainMenu.Display(!enable);
         _settings.Display(enable);
     }

@@ -17,4 +17,5 @@
     right: auto;
     bottom: auto;
     align-self: flex-start;
+    -unity-font-definition: initial;
 }
