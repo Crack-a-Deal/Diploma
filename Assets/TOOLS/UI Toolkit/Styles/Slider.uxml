@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Styles/main_menu_label.uss?fileID=7433441132597879392&amp;guid=f0f0aae21e58a12408839679056c4d42&amp;type=3#main_menu_label" />
+    <ui:VisualElement name="MasterVolumePanel" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; width: auto; justify-content: space-between; align-items: center; align-self: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-top: 15px; margin-bottom: 15px;">
+        <ui:Label tabindex="-1" text="Общая громкость" display-tooltip-when-elided="true" class="label_main_menu" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; justify-content: space-between;" />
+        <ui:Slider picking-mode="Ignore" value="1" high-value="1" low-value="0.0001" class="slider_main_menu" style="flex-shrink: 0; width: 508px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; justify-content: space-between;" />
+    </ui:VisualElement>
+</ui:UXML>

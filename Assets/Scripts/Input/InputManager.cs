@@ -13,12 +13,15 @@ public class InputManager : MonoBehaviour
     //public static event Action rebindCanceled;
     //public static event Action<InputAction, int> rebindStarted;
 
+
+    public static bool isDev = true;
     private void Awake()
     {
         if (inputActions == null)
             inputActions = new PlayerInputActions();
     }
 
+    #region REBIND
     public static void StartRebind(string actionName, int bindingIndex, Text statusText, bool excludeMouse)
     {
         InputAction action = inputActions.asset.FindAction(actionName);
@@ -76,7 +79,7 @@ public class InputManager : MonoBehaviour
         //rebind.WithCancelingThrough("<Keyboard>/escape");
 
         //if (excludeMouse)
-            rebind.WithControlsExcluding("Mouse");
+        rebind.WithControlsExcluding("Mouse");
 
         //rebindStarted?.Invoke(actionToRebind, bindingIndex);
         rebind.Start(); //actually starts the rebinding process
@@ -132,5 +135,6 @@ public class InputManager : MonoBehaviour
     //        action.RemoveBindingOverride(bindingIndex);
 
     //    SaveBindingOverride(action);
-    //}
+    //} 
+    #endregion
 }

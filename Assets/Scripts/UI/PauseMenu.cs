@@ -20,10 +20,12 @@ public class PauseMenu :MonoBehaviour
         _mainMenu = root.Q<VisualElement>("Main");
         _settings = root.Q<VisualElement>("SettingsPanel");
 
+        Label resume = root.Q<Label>("resumeLabel");
         Label settings = root.Q<Label>("settingsLabel");
         Label restart = root.Q<Label>("restartLabel");
         Label exit = root.Q<Label>("exitLabel");
 
+        //resume.RegisterCallback<ClickEvent>(evt => PauseController.OnResume?.Invoke());
         settings.RegisterCallback<ClickEvent>(evt => TogglePanels(_settings,pausePanel));
         restart.RegisterCallback<ClickEvent>(evt => Debug.Log("Restart"));
         exit.RegisterCallback<ClickEvent>(evt => SceneManager.LoadScene(0));

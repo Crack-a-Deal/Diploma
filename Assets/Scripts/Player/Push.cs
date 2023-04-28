@@ -14,13 +14,15 @@ public class Push : MonoBehaviour
 
         if (rigidBody != null && hit.gameObject.tag=="Red")
         {
-            var forceDirection = orientation.forward;
+
+            var forceDirection = hit.collider.transform.forward;
+            //Debug.Log(orientation.forward);
+            //Debug.Log(forceDirection);
             forceDirection.y = 0;
             forceDirection.Normalize();
 
+
             rigidBody.AddForceAtPosition(forceDirection * forceMagnitude, transform.position, ForceMode.Impulse);
-
-
         }
     }
 }

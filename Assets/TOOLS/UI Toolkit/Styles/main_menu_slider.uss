@@ -1,0 +1,7 @@
+.slider_main_menu {
+    background-color: rgb(255, 0, 0);
+    background-image: none;
+}
+
+.slider_mm {
+}

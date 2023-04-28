@@ -21,16 +21,20 @@ public class PlayerCamera : MonoBehaviour
 
     private void Update()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X");
-        float mouseY = Input.GetAxisRaw("Mouse Y");
+        if(Cursor.lockState == CursorLockMode.Locked)
+        {
+            float mouseX = Input.GetAxisRaw("Mouse X");
+            float mouseY = Input.GetAxisRaw("Mouse Y");
 
-        mouseRotation.y += mouseX;
+            mouseRotation.y += mouseX;
 
-        mouseRotation.x -= mouseY;
-        mouseRotation.x = Mathf.Clamp(mouseRotation.x, -90f, 90f);
+            mouseRotation.x -= mouseY;
+            mouseRotation.x = Mathf.Clamp(mouseRotation.x, -90f, 90f);
 
-        transform.rotation = Quaternion.Euler(mouseRotation.x, mouseRotation.y, 0);
-        orientation.rotation = Quaternion.Euler(0, mouseRotation.y, 0);
+            transform.rotation = Quaternion.Euler(mouseRotation.x, mouseRotation.y, 0);
+            orientation.rotation = Quaternion.Euler(0, mouseRotation.y, 0);
+        }
+        
     }
     private void ShowCursor()
     {

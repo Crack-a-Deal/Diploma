@@ -12,21 +12,25 @@ public class PlayerMovement : MonoBehaviour
         Walk, Run, Crouch, Jump, Fall,Pad,Push
     }
 
-    [Header("Movement")]
     private PlayerInputActions inputs;
     private InputAction movement;
 
+    [Header("Movement")]
     [SerializeField] CharacterController character;
-
     private float movementSpeed;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private Transform orientation;
-    [Space]
 
+    [Header("Jump")]
     [SerializeField] private float jumpHeight;
     [SerializeField] private float blueJumpHeight;
     [SerializeField] private float gravity;
+
+    [Header("Grounded")]
+    [SerializeField] private Transform groundPosition;
+    [SerializeField] private float groundDistance;
+    [SerializeField] private LayerMask groundMask;
 
     private Vector3 movementDirection;
     Vector3 gravityMovement = Vector3.zero;
@@ -60,6 +64,10 @@ public class PlayerMovement : MonoBehaviour
         {
             AudioManager.Resume();
         }
+        if(Input.GetKeyDown(KeyCode.L)) {
+            canvas.SetActive(!canvas.activeSelf);
+            InputManager.isDev = !InputManager.isDev;
+        }
 
         if(movementState == MovementState.Pad) {
             gravityMovement.y = Mathf.Sqrt(blueJumpHeight * -2 * gravity);
@@ -68,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         Move();
     }
 
+    // Movement
     private void Move()
     {
         // Run
@@ -85,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
         movementDirection = orientation.right * movement.ReadValue<Vector2>().x + orientation.forward * movement.ReadValue<Vector2>().y;
         character.Move(movementDirection * movementSpeed * Time.deltaTime);
     }
-    // Ïðûæîê
+    // Jump
     private void Jump(InputAction.CallbackContext obj)
     {
         if(IsGrounded)
@@ -93,8 +102,6 @@ public class PlayerMovement : MonoBehaviour
             gravityMovement.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
     }
-
-    private float currentGravity;
 
     private void Gravity()
     {
@@ -117,9 +124,7 @@ public class PlayerMovement : MonoBehaviour
 
         character.Move(gravityMovement * Time.deltaTime);
     }
-    [SerializeField] private Transform groundPosition;
-    [SerializeField] private float groundDistance;
-    [SerializeField] private LayerMask groundMask;
+
     private bool IsGrounded => Physics.CheckSphere(groundPosition.position, groundDistance, groundMask);
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -132,17 +137,17 @@ public class PlayerMovement : MonoBehaviour
         {
             movementState = MovementState.Push;
         }
-        //if (hit.gameObject.tag == "Green")
-        //{
-        //    movementState = MovementState.Slime;
-        //}
     }
+    [SerializeField] private GameObject canvas;
     private void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 1000, 20), $"Grounded: {IsGrounded}");
-        GUI.Label(new Rect(10, 30, 1000, 20), $"Movement Vector: {movement.ReadValue<Vector2>()}");
-        GUI.Label(new Rect(10, 50, 1000, 20), $"Movement State - {movementState}, Speed - {movementSpeed}");
-        //GUI.Label(new Rect(10, 20, 1000, 20), "Gravity - "+gravityMovement.y.ToString());
+        if (InputManager.isDev)
+        {
+            GUI.Label(new Rect(10, 10, 1000, 20), $"Grounded: {IsGrounded}");
+            GUI.Label(new Rect(10, 30, 1000, 20), $"Movement Vector: {movement.ReadValue<Vector2>()}");
+            GUI.Label(new Rect(10, 50, 1000, 20), $"Movement State - {movementState}, Speed - {movementSpeed}");
+            //GUI.Label(new Rect(10, 20, 1000, 20), "Gravity - "+gravityMovement.y.ToString());
+        }
     }
     private void OnDrawGizmos()
     {

@@ -32,7 +32,7 @@ public class PauseController : MonoBehaviour
             Time.timeScale = 1;
             OnResume?.Invoke();
         }
-    }  
+    }
 }
 
 public enum GameState
