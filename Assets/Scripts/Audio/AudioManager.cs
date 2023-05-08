@@ -24,8 +24,6 @@ public class AudioManager : MonoBehaviour
         settings = GetComponent<AudioSettings>();
 
         InitializeAudioSources();
-
-        //PlayMusic("loop");
     }
     private void InitializeAudioSources()
     {
@@ -86,11 +84,11 @@ public class AudioManager : MonoBehaviour
     {
         return Resources.Load<AudioClip>(path + clipName);
     }
-    private void OnGUI()
-    {
-        if (InputManager.isDev)
-        {
-            GUI.Label(new Rect(10, 70, 1000, 20), $"Audio pause state - {AudioListener.pause}");
-        }
-    }
+    //private void OnGUI()
+    //{
+    //    if (InputManager.isDev)
+    //    {
+    //        GUI.Label(new Rect(10, 70, 1000, 20), $"Audio pause state - {AudioListener.pause}");
+    //    }
+    //}
 }

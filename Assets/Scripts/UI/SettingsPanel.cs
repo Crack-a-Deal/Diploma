@@ -28,57 +28,83 @@ public class SettingsPanel
         controlsLabel.RegisterCallback<ClickEvent>(evt => Debug.Log("CONTROLS PANEL"));
         audioLabel.RegisterCallback<ClickEvent>(evt => mainPanel.TogglePanels(audioPanel));
 
-        // AUDIO PANEL
+        #region Audio Panel
         Slider masterVolumeSlider = audioPanel.Q<Slider>("masterVolumeSlider");
         Slider musicVolumeSlider = audioPanel.Q<Slider>("musicVolumeSlider");
         Slider soundVolumeSlider = audioPanel.Q<Slider>("soundVolumeSlider");
         Label backAudioLabel = audioPanel.Q<Label>("Back");
 
-        masterVolumeSlider.RegisterValueChangedCallback(evt => { AudioManager.settings.SetMasterVolume(evt.newValue);});
+        masterVolumeSlider.RegisterValueChangedCallback(evt => { AudioManager.settings.SetMasterVolume(evt.newValue); });
         musicVolumeSlider.RegisterValueChangedCallback(evt => { AudioManager.settings.SetMusicVolume(evt.newValue); });
         soundVolumeSlider.RegisterValueChangedCallback(evt => { AudioManager.settings.SetSoundsVolume(evt.newValue); });
         backAudioLabel.RegisterCallback<ClickEvent>(evt => audioPanel.TogglePanels(mainPanel));
+        #endregion
 
-        // DISPLAY PANEL
+        //640 x 360,960 x 540,1280 x 720,1920 x 1080
+        //В окне,Без рамок,Во весь экран
+        #region Display Panel
+        DropdownField windowMode = displayPanel.Q<DropdownField>("dropdownWindowMode");
         DropdownField resolutionDropdown = displayPanel.Q<DropdownField>("dropdownResolution");
+        Toggle vSync = displayPanel.Q<Toggle>("vsyncToggle");
+        Slider brightness = displayPanel.Q<Slider>("brightnessSlider");
         Label backDisplayLabel = displayPanel.Q<Label>("Back");
 
         resolutionDropdown.choices = Resolutions;
+
+        // Events
+        windowMode.RegisterValueChangedCallback((evt) => SetFullScreenMode(evt.newValue));
         resolutionDropdown.RegisterValueChangedCallback((evt) => SetResolution(evt.newValue));
-        resolutionDropdown.index = 3;
-        backDisplayLabel.RegisterCallback<ClickEvent>(evt => displayPanel.TogglePanels(mainPanel));
+        vSync.RegisterValueChangedCallback((evt) => SetVerticalSync(evt.newValue));
+        brightness.RegisterValueChangedCallback((evt) => SetBrightness(evt.newValue));
+        backDisplayLabel.RegisterCallback<ClickEvent>(evt => displayPanel.TogglePanels(mainPanel)); 
+        #endregion
     }
+    private void SetFullScreenMode(string screenModeIndex)
+    {
+        switch (screenModeIndex)
+        {
+            case "В окне":
+                Screen.fullScreenMode = FullScreenMode.Windowed;
+                    break;
+            case "Без рамок":
+                Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+                break;
+            case "Во весь экран":
+                Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+                break;
+        }
+        //PlayerPrefs.SetInt("screenMode", screenModeIndex);
+    }
+
     private void SetResolution(string resolution)
     {
         string[] resolutionArray=resolution.Split('x');
         int[] values = new int[] { int.Parse(resolutionArray[0]), int.Parse(resolutionArray[1]) };
         Screen.SetResolution(values[0], values[1], true);
+
+        // Save date
+        PlayerPrefs.SetInt("resolutionWidth", values[0]);
+        PlayerPrefs.SetInt("resolutionHeight", values[1]);
+        PlayerPrefs.SetString("resolution", resolution);
     }
+
     private void SetVerticalSync(bool enable)
     {
-        if(enable)
-        {
-            QualitySettings.vSyncCount = 1;
-        }
-        else
-        {
-            QualitySettings.vSyncCount = 0;
-        }
+        QualitySettings.vSyncCount = enable ? 1 : 0;
+
+        // Save date
+        PlayerPrefs.SetInt("vSync", enable ? 1 : 0);
     }
-    private void SetFullScreenMode(int screenModeIndex)
+
+    private void SetBrightness(float brightness)
     {
-        switch (screenModeIndex)
-        {
-            case 0:
-                Screen.fullScreenMode = FullScreenMode.Windowed;
-                    break;
-            case 1:
-                Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
-                break;
-            case 2:
-                Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
-                break;
-        }
-        
+        PlayerPrefs.SetFloat("brightness", brightness);
+    }
+
+    private void LoadDisplaySettins()
+    {
+        //SetFullScreenMode(PlayerPrefs.GetInt("screenMode"));
+        SetResolution(PlayerPrefs.GetString("resolution"));
+        SetVerticalSync(PlayerPrefs.GetInt("vSync") == 1);
     }
 }

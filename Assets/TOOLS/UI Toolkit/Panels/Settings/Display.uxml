@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Styles/main_menu_label.uss?fileID=7433441132597879392&amp;guid=f0f0aae21e58a12408839679056c4d42&amp;type=3#main_menu_label" />
-    <Style src="project://database/Assets/UI%20Toolkit/Styles/main_menu_title.uss?fileID=7433441132597879392&amp;guid=7777e86b5d3e0d547ab89607877fa01b&amp;type=3#main_menu_title" />
+    <Style src="project://database/Assets/Tools/UI%20Toolkit/Styles/main_menu_label.uss?fileID=7433441132597879392&amp;guid=f0f0aae21e58a12408839679056c4d42&amp;type=3#main_menu_label" />
+    <Style src="project://database/Assets/Tools/UI%20Toolkit/Styles/main_menu_title.uss?fileID=7433441132597879392&amp;guid=7777e86b5d3e0d547ab89607877fa01b&amp;type=3#main_menu_title" />
+    <Style src="project://database/Assets/Tools/UI%20Toolkit/Styles/label_text.uss?fileID=7433441132597879392&amp;guid=f77dce9dd6793c64d846dd015fa5f1a6&amp;type=3#label_text" />
     <ui:VisualElement name="DisplayPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.78); padding-left: 200px; padding-right: 200px; display: flex;">
         <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
             <ui:VisualElement name="header" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: flex-start; align-items: auto; align-self: flex-start;">
@@ -8,16 +9,29 @@
                 <ui:Label tabindex="-1" text="ЭКРАН" display-tooltip-when-elided="true" name="Label" class="label_menu_title" style="align-self: flex-start; margin-left: 40px;" />
             </ui:VisualElement>
             <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                <ui:Label tabindex="-1" text="МОНИТОР" display-tooltip-when-elided="true" class="label_menu_title" style="font-size: 28px;" />
                 <ui:VisualElement name="MonitorPanel" style="background-color: rgba(0, 0, 0, 0);">
-                    <ui:Label tabindex="-1" text="МОНИТОР" display-tooltip-when-elided="true" class="label_menu_title" style="font-size: 28px;" />
-                    <ui:DropdownField label="Режим дисплея" index="-1" choices="В окне, Без рамок, Во весь экран" name="dropdownWindowMode" class="label_main_menu" style="width: 520px;" />
-                    <ui:DropdownField label="Разрешение" index="-1" choices="640 x 360, 960 x 540,1280 x 720,1920 x 1080" name="dropdownResolution" class="label_main_menu" style="width: 518px;" />
-                    <ui:Toggle label="Вертикальная синхронизация" name="vsync" class="label_main_menu" />
-                    <ui:Slider picking-mode="Ignore" label="Яркость&#10;" value="42" high-value="100" name="brightnessSlider" class="label_main_menu" style="width: 514px;" />
+                    <ui:VisualElement name="WindowMode" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-self: auto; justify-content: space-between;">
+                        <ui:Label tabindex="-1" text="Режим окна" display-tooltip-when-elided="true" name="Label" class="label_text" />
+                        <ui:DropdownField index="-1" choices="В окне, Без рамок, Во весь экран" name="dropdownWindowMode" style="width: 400px; align-self: auto;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DisplayMode" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-self: auto; justify-content: space-between;">
+                        <ui:Label tabindex="-1" text="Разрешение" display-tooltip-when-elided="true" class="label_text" />
+                        <ui:DropdownField index="-1" name="dropdownResolution" class="label_text" style="width: 400px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="VsyncMode" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-self: auto; justify-content: space-between;">
+                        <ui:Label tabindex="-1" text="Вертикальная синхронизация" display-tooltip-when-elided="true" name="Label" class="label_text" />
+                        <ui:Toggle name="vsyncToggle" class="label_main_menu" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Brightness" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-self: auto; justify-content: space-between; display: none;">
+                        <ui:Label tabindex="-1" text="Яркость" display-tooltip-when-elided="true" name="Label" class="label_main_menu" />
+                        <ui:Slider picking-mode="Ignore" value="0.5" high-value="1" name="brightnessSlider" class="label_main_menu" style="width: 508px;" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="QualityPanel" style="background-color: rgba(0, 0, 0, 0);">
-                    <ui:Label tabindex="-1" text="КАЧЕСТВО" display-tooltip-when-elided="true" class="label_menu_title" style="font-size: 28px;" />
-                    <ui:DropdownField label="Сглаживание" index="-1" choices="Выкл., 2х,4х,8х" name="dropdownAntiAliasing" class="label_main_menu" style="width: 520px;" />
+                <ui:Label tabindex="-1" text="КАЧЕСТВО" display-tooltip-when-elided="true" class="label_menu_title" style="font-size: 28px;" />
+                <ui:VisualElement name="QualityMode" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-self: auto; justify-content: space-between;">
+                    <ui:Label tabindex="-1" text="Сглаживание" display-tooltip-when-elided="true" name="Label" class="label_text" />
+                    <ui:DropdownField index="-1" choices="Выкл., 2х,4х,8х" name="dropdownAntiAliasing" class="label_main_menu" style="width: 400px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

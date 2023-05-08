@@ -21,7 +21,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void Update()
     {
-        if(Cursor.lockState == CursorLockMode.Locked)
+        if (Cursor.lockState == CursorLockMode.Locked)
         {
             float mouseX = Input.GetAxisRaw("Mouse X");
             float mouseY = Input.GetAxisRaw("Mouse Y");
@@ -34,7 +34,7 @@ public class PlayerCamera : MonoBehaviour
             transform.rotation = Quaternion.Euler(mouseRotation.x, mouseRotation.y, 0);
             orientation.rotation = Quaternion.Euler(0, mouseRotation.y, 0);
         }
-        
+
     }
     private void ShowCursor()
     {

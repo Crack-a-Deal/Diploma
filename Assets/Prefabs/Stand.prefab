@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 934666173418402060}
   - component: {fileID: 1036183676727201645}
   - component: {fileID: 1521332615085879247}
-  - component: {fileID: 7628869566119279375}
   m_Layer: 6
   m_Name: Stand
   m_TagString: Untagged
@@ -714,18 +713,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &7628869566119279375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438139266664337899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 663520920b6d38844ba3c403843d4351, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7222537793854890864
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +727,7 @@ GameObject:
   - component: {fileID: 4375893787737428787}
   - component: {fileID: 4343840654688241199}
   - component: {fileID: 1404060984328955815}
-  - component: {fileID: 7829801993047949498}
+  - component: {fileID: 3759943347389717404}
   m_Layer: 6
   m_Name: cube
   m_TagString: Untagged
@@ -1079,7 +1066,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &7829801993047949498
+--- !u!114 &3759943347389717404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1088,8 +1075,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7222537793854890864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63304f5c52576c941b526ce63498900f, type: 3}
+  m_Script: {fileID: 11500000, guid: 663520920b6d38844ba3c403843d4351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  up: 0
+  linkedDoor: {fileID: 0}

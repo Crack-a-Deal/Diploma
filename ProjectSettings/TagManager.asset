@@ -10,6 +10,7 @@ TagManager:
   - White
   - Push
   - Yellow
+  - Test
   layers:
   - Default
   - TransparentFX

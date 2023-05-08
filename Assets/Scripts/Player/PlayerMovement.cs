@@ -65,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
             AudioManager.Resume();
         }
         if(Input.GetKeyDown(KeyCode.L)) {
-            canvas.SetActive(!canvas.activeSelf);
             InputManager.isDev = !InputManager.isDev;
         }
 
@@ -76,16 +75,15 @@ public class PlayerMovement : MonoBehaviour
         Move();
     }
 
-    // Movement
+    // Функция реализует управление персонажем
     private void Move()
     {
-        // Run
         if (Input.GetKey(KeyCode.LeftShift) && movementState == MovementState.Walk && IsGrounded)
         {
             movementState = MovementState.Run;
             movementSpeed = runSpeed;
         }
-        else if (IsGrounded && movementState != MovementState.Pad && movementState != MovementState.Push /*&& movementState != MovementState.Slime*/)
+        else if (IsGrounded && movementState != MovementState.Pad && movementState != MovementState.Push)
         {
             movementState = MovementState.Walk;
             movementSpeed = walkSpeed;
@@ -94,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
         movementDirection = orientation.right * movement.ReadValue<Vector2>().x + orientation.forward * movement.ReadValue<Vector2>().y;
         character.Move(movementDirection * movementSpeed * Time.deltaTime);
     }
-    // Jump
+    // Функция реализует прыжок персонажа
     private void Jump(InputAction.CallbackContext obj)
     {
         if(IsGrounded)
@@ -103,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Функци реализует гравитацию и движение персонажа в пространстве
     private void Gravity()
     {
         if (IsGrounded && gravityMovement.y < 0)
@@ -125,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
         character.Move(gravityMovement * Time.deltaTime);
     }
 
-    private bool IsGrounded => Physics.CheckSphere(groundPosition.position, groundDistance, groundMask);
+    public bool IsGrounded => Physics.CheckSphere(groundPosition.position, groundDistance, groundMask);
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -133,16 +132,16 @@ public class PlayerMovement : MonoBehaviour
         {
             movementState = MovementState.Pad;
         }
-        if(hit.gameObject.tag == "Red")
-        {
-            movementState = MovementState.Push;
-        }
     }
-    [SerializeField] private GameObject canvas;
     private void OnGUI()
     {
         if (InputManager.isDev)
         {
+            Texture2D texture = new Texture2D(1, 1);
+            texture.SetPixel(0, 0, new Color(0f, 0f, 0f, .5f));
+            texture.Apply();
+
+            GUI.DrawTexture(new Rect(0, 0, 250, 200), texture);
             GUI.Label(new Rect(10, 10, 1000, 20), $"Grounded: {IsGrounded}");
             GUI.Label(new Rect(10, 30, 1000, 20), $"Movement Vector: {movement.ReadValue<Vector2>()}");
             GUI.Label(new Rect(10, 50, 1000, 20), $"Movement State - {movementState}, Speed - {movementSpeed}");
