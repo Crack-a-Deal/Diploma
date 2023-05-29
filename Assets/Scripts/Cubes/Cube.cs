@@ -9,6 +9,7 @@ public class Cube : Colorable
     [SerializeField] private float moveTime;
     [SerializeField] private float moveHeight;
     [SerializeField] private float latency;
+
     private bool isMoving = false;
     private Coroutine coroutine;
       

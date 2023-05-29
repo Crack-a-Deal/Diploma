@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [Flags]
 public enum ColorState
@@ -33,8 +34,12 @@ public class ColorChanger : MonoBehaviour
 
     private void OnEnable()
     {
-        inputActions.Player.FirsColor.performed += ChangeColor;
-        inputActions.Player.FirsColor.Enable();
+        inputActions.Player.Interact.performed += ChangeColor;
+        inputActions.Player.Interact.Enable();
+    }
+    private void OnDisable()
+    {
+        inputActions.Player.Interact.Disable();
     }
 
     private void Awake()
@@ -94,8 +99,11 @@ public class ColorChanger : MonoBehaviour
     // Функция возвращает выбранный объект на уровне
     private Collider GetSelectedObject()
     {
+        if (raycastCamera == null)
+            return null;
         RaycastHit hit;
         Physics.Raycast(raycastCamera.transform.position, raycastCamera.transform.forward, out hit);
+
         return hit.collider;
     }
 
@@ -131,6 +139,7 @@ public class ColorChanger : MonoBehaviour
         second.tag = tempTag;
 
         CubeSwapColors(curentColor.ToString());
+        AudioManager.PlaySound("ink");
     }    
 
     // Функция устанавливает прозрачность у объектов в зависимости от тега

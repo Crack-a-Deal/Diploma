@@ -1,7 +1,6 @@
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SettingsPanel
 {
@@ -17,16 +16,21 @@ public class SettingsPanel
         // INITIALIZATION
         VisualElement mainPanel = root.Q<VisualElement>("MainPanel");
         VisualElement displayPanel = root.Q<VisualElement>("DisplayPanel");
+        VisualElement controlPanel = root.Q<VisualElement>("ControlPanel");
         VisualElement audioPanel = root.Q<VisualElement>("AudioPanel");
 
-        // MAIN PANEL
+
+        #region Main Panel
         Label displayLabel = mainPanel.Q<Label>("displayLabel");
         Label controlsLabel = mainPanel.Q<Label>("controlsLabel");
         Label audioLabel = mainPanel.Q<Label>("audioLabel");
+        Label backMainPanel = mainPanel.Q<Label>("Back");
 
-        displayLabel.RegisterCallback<ClickEvent>(evt => mainPanel.TogglePanels(displayPanel));
-        controlsLabel.RegisterCallback<ClickEvent>(evt => Debug.Log("CONTROLS PANEL"));
-        audioLabel.RegisterCallback<ClickEvent>(evt => mainPanel.TogglePanels(audioPanel));
+        displayLabel.RegisterCallback<ClickEvent>(evt => mainPanel.Open(displayPanel));
+        controlsLabel.RegisterCallback<ClickEvent>(evt => mainPanel.Open(controlPanel));
+        audioLabel.RegisterCallback<ClickEvent>(evt => mainPanel.Open(audioPanel));
+        backMainPanel.RegisterCallback<ClickEvent>(evt => audioPanel.Open(mainPanel));
+        #endregion
 
         #region Audio Panel
         Slider masterVolumeSlider = audioPanel.Q<Slider>("masterVolumeSlider");
@@ -37,12 +41,13 @@ public class SettingsPanel
         masterVolumeSlider.RegisterValueChangedCallback(evt => { AudioManager.settings.SetMasterVolume(evt.newValue); });
         musicVolumeSlider.RegisterValueChangedCallback(evt => { AudioManager.settings.SetMusicVolume(evt.newValue); });
         soundVolumeSlider.RegisterValueChangedCallback(evt => { AudioManager.settings.SetSoundsVolume(evt.newValue); });
-        backAudioLabel.RegisterCallback<ClickEvent>(evt => audioPanel.TogglePanels(mainPanel));
+        backAudioLabel.RegisterCallback<ClickEvent>(evt => audioPanel.Open(mainPanel));
         #endregion
 
+        #region Display Panel
         //640 x 360,960 x 540,1280 x 720,1920 x 1080
         //В окне,Без рамок,Во весь экран
-        #region Display Panel
+
         DropdownField windowMode = displayPanel.Q<DropdownField>("dropdownWindowMode");
         DropdownField resolutionDropdown = displayPanel.Q<DropdownField>("dropdownResolution");
         Toggle vSync = displayPanel.Q<Toggle>("vsyncToggle");
@@ -56,7 +61,21 @@ public class SettingsPanel
         resolutionDropdown.RegisterValueChangedCallback((evt) => SetResolution(evt.newValue));
         vSync.RegisterValueChangedCallback((evt) => SetVerticalSync(evt.newValue));
         brightness.RegisterValueChangedCallback((evt) => SetBrightness(evt.newValue));
-        backDisplayLabel.RegisterCallback<ClickEvent>(evt => displayPanel.TogglePanels(mainPanel)); 
+        backDisplayLabel.RegisterCallback<ClickEvent>(evt => displayPanel.Open(mainPanel));
+        #endregion
+
+        #region Control Panel
+        //640 x 360,960 x 540,1280 x 720,1920 x 1080
+        //В окне,Без рамок,Во весь экран
+
+        Slider sensitivity = controlPanel.Q<Slider>("SensSlider");
+        Label backControlLabel = controlPanel.Q<Label>("Back");
+
+        resolutionDropdown.choices = Resolutions;
+
+        // Events
+        sensitivity.RegisterValueChangedCallback((evt) => Debug.Log(evt.newValue));
+        backControlLabel.RegisterCallback<ClickEvent>(evt => controlPanel.Open(mainPanel));
         #endregion
     }
     private void SetFullScreenMode(string screenModeIndex)

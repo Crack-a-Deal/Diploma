@@ -8,7 +8,7 @@ public static class UIExtentions
         if (elemet == null) return;
         elemet.style.display = enabled ? DisplayStyle.Flex : DisplayStyle.None;
     }
-    public static void TogglePanels(this VisualElement elemet, VisualElement newElement)
+    public static void Open(this VisualElement elemet, VisualElement newElement)
     {
         Display(elemet, false);
         Display(newElement, true);

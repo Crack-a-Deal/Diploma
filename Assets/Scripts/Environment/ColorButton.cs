@@ -2,31 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorButton : Colorable
+public class ColorButton : MonoBehaviour
 {
     [SerializeField] private Door linkedDoor;
+    [SerializeField] private Cube cube;
 
     private void Update()
     {
-        if (!linkedDoor.IsOpen && Equals(Color, linkedDoor.Correct—olor) && Transparency == 1)
+        if (!linkedDoor.IsOpen && Equals(cube.Color, linkedDoor.Correct—olor) && cube.Transparency == 1)
         {
             linkedDoor.Open(Vector3.zero);
         }
-        if(linkedDoor.IsOpen && Transparency != 1)
+        if(linkedDoor.IsOpen && cube.Transparency != 1)
         {
             linkedDoor.Close();
         }
-        if (linkedDoor.IsOpen && !Equals(Color, linkedDoor.Correct—olor))
+        if (linkedDoor.IsOpen && !Equals(cube.Color, linkedDoor.Correct—olor))
         {
             linkedDoor.Close();
         }
 
     }
-    //private void OnGUI()
-    //{
-    //    if (InputManager.isDev)
-    //    {
-    //        GUI.Label(new Rect(0, 140, 1000, 20), $"stand color - {Color.name} || end color - {linkedDoor.Color}");
-    //    }
-    //}
 }

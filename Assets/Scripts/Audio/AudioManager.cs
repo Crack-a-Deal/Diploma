@@ -11,10 +11,21 @@ public class AudioManager : MonoBehaviour
     private static AudioSource _music;
     private static AudioSource _sounds;
 
+    [SerializeField] private AudioClip[] levelMusic;
+
+    private void OnEnable()
+    {
+        LevelManager.OnLevelComplete += LoadLevelMusic;
+    }
+    private void OnDisable()
+    {
+        LevelManager.OnLevelComplete -= LoadLevelMusic;
+    }
+
     private void Awake()
     {
         if (instance != null)
-        {
+        {   
             Destroy(gameObject);
             return;
         }
@@ -25,6 +36,7 @@ public class AudioManager : MonoBehaviour
 
         InitializeAudioSources();
     }
+
     private void InitializeAudioSources()
     {
         GameObject music = new GameObject("Music");
@@ -32,12 +44,18 @@ public class AudioManager : MonoBehaviour
         music.transform.SetParent(transform);
         _music = music.GetComponent<AudioSource>();
         _music.outputAudioMixerGroup = settings.MusicMixerGroup;
+        LoadLevelMusic();
 
         GameObject sound = new GameObject("Sounds");
         sound.AddComponent<AudioSource>();
         sound.transform.SetParent(transform);
         _sounds = sound.GetComponent<AudioSource>();
         _sounds.outputAudioMixerGroup = settings.SoundsMixerGroup;
+    }
+
+    private void LoadLevelMusic()
+    {
+        PlayMusic(levelMusic[LevelManager.currentLevel].name);
     }
     public static void PlaySound(string soundName)
     {
@@ -54,6 +72,25 @@ public class AudioManager : MonoBehaviour
         }
         _sounds.clip = soundClip;
         _sounds.Play();
+    }
+    public static void PlayFootSteps(string soundName)
+    {
+        if (string.IsNullOrEmpty(soundName))
+        {
+            Debug.Log("Sound null or empty");
+            return;
+        }
+
+        AudioClip soundClip = instance.LoadClip("Audio/Sounds/", soundName);
+        if (null == soundClip)
+        {
+            Debug.Log("Sound not loaded: " + soundName);
+        }
+        if (_sounds.isPlaying)
+            return;
+
+        _sounds.pitch=Random.Range(0.8f, 1f);
+        _sounds.PlayOneShot(soundClip);
     }
     public static void PlayMusic(string musicName)
     {
@@ -84,11 +121,4 @@ public class AudioManager : MonoBehaviour
     {
         return Resources.Load<AudioClip>(path + clipName);
     }
-    //private void OnGUI()
-    //{
-    //    if (InputManager.isDev)
-    //    {
-    //        GUI.Label(new Rect(10, 70, 1000, 20), $"Audio pause state - {AudioListener.pause}");
-    //    }
-    //}
 }

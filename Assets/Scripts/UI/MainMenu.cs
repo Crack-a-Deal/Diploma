@@ -11,38 +11,39 @@ public class MainMenu : MonoBehaviour
     
     private Label l_play;
     private Label l_settings;
-    private Label l_back;
+    private Label l_about;
     private Label l_exit;
 
-    private VisualElement _mainMenu;
-    private VisualElement _settings;
+    private VisualElement _mainPanel;
+    private VisualElement _settingsPanel;
+    private VisualElement _aboutPanel;
     private void Start()
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
-        _mainMenu = root.Q<VisualElement>("Main");
-        _settings = root.Q<VisualElement>("SettingsPanel");
-
+        _mainPanel = root.Q<VisualElement>("Main");
+        _settingsPanel = root.Q<VisualElement>("SettingsPanel");
+        _aboutPanel = root.Q<VisualElement>("AboutPanel");
 
         l_play = root.Q<Label>("Play");
         l_settings = root.Q<Label>("Settings");
+
+        Label s_Back = _settingsPanel.Q<VisualElement>("MainPanel").Q<Label>("Back");
+        s_Back.RegisterCallback<ClickEvent>(evt => _settingsPanel.Open(_mainPanel));
+
+        Label a_Back = _aboutPanel.Q<VisualElement>("AboutPanel").Q<Label>("Back");
+        a_Back.RegisterCallback<ClickEvent>(evt => _aboutPanel.Open(_mainPanel));
+
+        l_about = root.Q<Label>("About");
         l_exit = root.Q<Label>("Exit");
-        l_back = root.Q<Label>("Back");
 
-        l_play.RegisterCallback<ClickEvent>(evt => SceneManager.LoadScene(1));
-        l_settings.RegisterCallback<ClickEvent>(evt => SetupSettings(true));
-        l_back.RegisterCallback<ClickEvent>(evt => SetupSettings(false));
+        l_play.RegisterCallback<ClickEvent>(evt =>LevelManager.LoadNextLevel());
+        l_settings.RegisterCallback<ClickEvent>(evt =>
+        {
+            SettingsPanel settingsPanel = new SettingsPanel(_settingsPanel);
+            _mainPanel.Open(_settingsPanel);
+        });
+        l_about.RegisterCallback<ClickEvent>(evt => _mainPanel.Open(_aboutPanel));
         l_exit.RegisterCallback<ClickEvent>(evt => Application.Quit());
-
-        SetupSettingsMenu();
-    }
-    private void SetupSettingsMenu()
-    {
-        SettingsPanel settingsPanel = new SettingsPanel(_settings);
-    }
-    private void SetupSettings(bool enable)
-    {
-        _mainMenu.Display(!enable);
-        _settings.Display(enable);
     }
 }

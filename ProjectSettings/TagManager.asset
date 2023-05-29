@@ -11,6 +11,7 @@ TagManager:
   - Push
   - Yellow
   - Test
+  - Crystal
   layers:
   - Default
   - TransparentFX

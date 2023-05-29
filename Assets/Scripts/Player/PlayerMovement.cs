@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private enum MovementState
     {
-        Walk, Run, Crouch, Jump, Fall,Pad,Push
+        Walk, Run, Crouch, Jump, Fall, Pad, Push
     }
 
     private PlayerInputActions inputs;
@@ -32,6 +30,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float groundDistance;
     [SerializeField] private LayerMask groundMask;
 
+    [Header("Test")]
+    public bool canMove = true;
+    public bool canJump = true;
+
     private Vector3 movementDirection;
     Vector3 gravityMovement = Vector3.zero;
     private MovementState movementState;
@@ -39,7 +41,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        inputs = InputManager.inputActions;
+        inputs = new PlayerInputActions();
+
     }
     private void OnEnable()
     {
@@ -49,25 +52,16 @@ public class PlayerMovement : MonoBehaviour
         inputs.Player.Jump.performed += Jump;
         inputs.Player.Jump.Enable();
     }
+    private void OnDisable()
+    {
+        movement.Disable();
+        inputs.Player.Jump.Disable();
+    }
 
-    
+
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M)){
-            AudioManager.PlaySound("sound");
-        }
-        if (Input.GetKeyDown(KeyCode.P)) {
-            AudioManager.Pause();
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            AudioManager.Resume();
-        }
-        if(Input.GetKeyDown(KeyCode.L)) {
-            InputManager.isDev = !InputManager.isDev;
-        }
-
         if(movementState == MovementState.Pad) {
             gravityMovement.y = Mathf.Sqrt(blueJumpHeight * -2 * gravity);
         }
@@ -78,6 +72,9 @@ public class PlayerMovement : MonoBehaviour
     // Функция реализует управление персонажем
     private void Move()
     {
+        if (!canMove)
+            return;
+
         if (Input.GetKey(KeyCode.LeftShift) && movementState == MovementState.Walk && IsGrounded)
         {
             movementState = MovementState.Run;
@@ -89,14 +86,30 @@ public class PlayerMovement : MonoBehaviour
             movementSpeed = walkSpeed;
         }
 
+        if(IsGrounded && movementDirection != Vector3.zero)
+        {
+            int x = UnityEngine.Random.Range(1, 6);
+            string sound = $"step_dirt_0{x}";
+            AudioManager.PlayFootSteps(sound);
+        }
+        
         movementDirection = orientation.right * movement.ReadValue<Vector2>().x + orientation.forward * movement.ReadValue<Vector2>().y;
         character.Move(movementDirection * movementSpeed * Time.deltaTime);
     }
     // Функция реализует прыжок персонажа
     private void Jump(InputAction.CallbackContext obj)
     {
-        if(IsGrounded)
+        if(!canJump)
+            return;
+
+        if (groundPosition == null)
         {
+            Debug.LogWarning("NO ground");
+            return;
+        }
+        if (IsGrounded)
+        {
+            AudioManager.PlaySound("player_jump");
             gravityMovement.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
     }

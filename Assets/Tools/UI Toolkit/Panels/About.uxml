@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Tools/UI%20Toolkit/Styles/main_menu_label.uss?fileID=7433441132597879392&amp;guid=f0f0aae21e58a12408839679056c4d42&amp;type=3#main_menu_label" />
+    <Style src="project://database/Assets/Tools/UI%20Toolkit/Styles/main_menu_title.uss?fileID=7433441132597879392&amp;guid=7777e86b5d3e0d547ab89607877fa01b&amp;type=3#main_menu_title" />
+    <Style src="project://database/Assets/Tools/UI%20Toolkit/Styles/label_text.uss?fileID=7433441132597879392&amp;guid=f77dce9dd6793c64d846dd015fa5f1a6&amp;type=3#label_text" />
+    <ui:VisualElement name="AboutPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.78); padding-left: 200px; padding-right: 200px; display: flex;">
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+            <ui:VisualElement name="header" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: flex-start; align-items: auto; align-self: flex-start;">
+                <ui:Label tabindex="-1" text="АВТОР" display-tooltip-when-elided="true" name="Label" class="label_menu_title" style="align-self: flex-start; color: rgba(255, 255, 255, 0.5);" />
+            </ui:VisualElement>
+            <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                <ui:Label tabindex="-1" text="ОСНОВАНИЕ ДЛЯ РАЗРАБОТКИ" display-tooltip-when-elided="true" class="label_menu_title" style="font-size: 28px;" />
+                <ui:Label tabindex="-1" text="Основанием для разработки игры «Название» является разработка дипломного проекта" display-tooltip-when-elided="true" name="Label" class="label_text" />
+                <ui:Label tabindex="-1" text="ОБ АВТОРЕ" display-tooltip-when-elided="true" class="label_menu_title" style="font-size: 28px;" />
+                <ui:Label tabindex="-1" text="Игру разработал студент группы 19-8 ПО Савкин Андрей&#10;4 курс ГБПОУ «Нижегородский автомеханический техникум»&#10;специальности 09.02.03 «Программирование в компьютерных системах»" display-tooltip-when-elided="true" name="Label" class="label_text" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Line" style="flex-grow: 0; height: 4px; width: auto; flex-wrap: nowrap; flex-direction: row; background-color: rgb(37, 37, 35); margin-left: -100px; margin-right: -100px;" />
+        <ui:VisualElement name="Footer" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row-reverse; height: 120px; align-items: auto; justify-content: flex-start; align-self: flex-end; -unity-font-definition: initial;">
+            <ui:Label tabindex="-1" text="НАЗАД" display-tooltip-when-elided="true" name="Back" class="label_menu_title" style="color: rgb(255, 255, 255); font-size: 28px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 30px; margin-right: 0; margin-top: 0; margin-bottom: 0; -unity-text-align: upper-left; align-self: center;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

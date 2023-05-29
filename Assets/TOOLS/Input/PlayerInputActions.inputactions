@@ -24,18 +24,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "FirsColor",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "3411e334-f370-4772-a47c-eafc39d76501",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SecondColor",
-                    "type": "Button",
-                    "id": "483bbac7-9685-45fd-ad46-379a256191ee",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -116,46 +107,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "FirsColor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a393f6bd-b0b2-4f67-a738-2a2d4144f0ce",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SecondColor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "UI",
-            "id": "cbd44a1c-cbd8-4eec-acfd-63c48238d675",
-            "actions": [
-                {
-                    "name": "Menu",
-                    "type": "Button",
-                    "id": "3e65ae59-4e6c-4998-83ea-5b2fc2678112",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "41ad863b-de4e-4fc6-b9ef-dd8400ac6335",
-                    "path": "<Keyboard>/minus",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Menu",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

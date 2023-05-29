@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class InputManager : MonoBehaviour
 {
+    public static InputManager instance;
     public static PlayerInputActions inputActions;
 
     //public static event Action rebindComplete;
@@ -17,8 +18,15 @@ public class InputManager : MonoBehaviour
     public static bool isDev = true;
     private void Awake()
     {
-        if (inputActions == null)
-            inputActions = new PlayerInputActions();
+        isDev = Application.isEditor;
+
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     #region REBIND

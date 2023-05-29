@@ -20,7 +20,7 @@ public class Door : Colorable
     private Vector3 Forward;
 
     private Coroutine AnimationCoroutine;
-    public static Action OnCChanged;
+    public static Action OnChanged;
 
     private void Awake()
     {

@@ -77,10 +77,9 @@ GameObject:
   - component: {fileID: 2843871305365357074}
   - component: {fileID: 7821963936823010625}
   - component: {fileID: 8509132942580887302}
-  - component: {fileID: 7514832126701808829}
   m_Layer: 2
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,7 +91,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7926471555780753571}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -101,7 +100,7 @@ Transform:
   - {fileID: 6337751517220983360}
   - {fileID: 6667070623418872520}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &998409068213876866
 MeshFilter:
@@ -226,6 +225,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  canMove: 1
+  canJump: 1
 --- !u!114 &8509132942580887302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,24 +241,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colors: 27
   curentColor: 1
-  cubes: []
-  color1: {fileID: 0}
-  color2: {fileID: 0}
-  transparency: 0.3
---- !u!114 &7514832126701808829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7926471555780753571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfe97c821770ac940b5afbfb8d97df4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orientation: {fileID: 6337751517220983360}
-  forceMagnitude: 1
+  player: {fileID: 7821963936823010625}
+  transparency: 0.5
 --- !u!1 &9203087618022219869
 GameObject:
   m_ObjectHideFlags: 0
