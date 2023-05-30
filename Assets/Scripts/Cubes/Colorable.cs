@@ -6,9 +6,8 @@ using static UnityEngine.Rendering.DebugUI;
 
 public abstract class Colorable : MonoBehaviour
 {
-    public static Action OnColorChanged;
-    public static Action OnTransparencyChanged;
-    protected Color currentColor;
+    protected Material defaultColor;
+    protected string defaultTag;
     public Material Color
     {
         get
@@ -18,21 +17,24 @@ public abstract class Colorable : MonoBehaviour
         protected set
         {
             GetComponent<MeshRenderer>().material = value;
-            OnColorChanged?.Invoke();
         }
     }
     public float Transparency
     {
-        get {
+        get
+        {
             return Color.GetFloat("_Transparent");
         }
         protected set {
             Color.SetFloat("_Transparent", value);
         }
     }
-    public void SetColor(Material newMaterial)
+    public void SetColor(Material newMaterial,string newTag)
     {
+        defaultColor = newMaterial;
+        defaultTag = newTag;
+
         GetComponent<MeshRenderer>().material = newMaterial;
-        OnColorChanged?.Invoke();
+        tag= newTag;
     }
 }

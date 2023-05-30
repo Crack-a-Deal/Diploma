@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 [Flags]
 public enum ColorState
@@ -30,7 +29,6 @@ public class ColorChanger : MonoBehaviour
     private Camera raycastCamera;
     private PlayerInputActions inputActions;
     private Colorable tempObject;
-    private PlayerMovement player; 
 
     private void OnEnable()
     {
@@ -45,7 +43,6 @@ public class ColorChanger : MonoBehaviour
     private void Awake()
     {
         inputActions = new PlayerInputActions();
-        player= GetComponent<PlayerMovement>();
     }
 
     private void Start()
@@ -60,11 +57,11 @@ public class ColorChanger : MonoBehaviour
     // Функция находит все объекты на сцене с тегом
     private void FindAllObjectsWithTag()
     {
-        string[] tags = colors.ToString().Split(", ");
-        
+        string[] tags = Enum.GetNames(typeof(ColorState));
+
         foreach (string colorTag in tags)
         {
-            GameObject[]objects =  GameObject.FindGameObjectsWithTag(colorTag);
+            GameObject[] objects = GameObject.FindGameObjectsWithTag(colorTag);
             foreach (GameObject obj in objects)
             {
                 cubesList.Add(obj.GetComponent<Cube>());
@@ -74,25 +71,28 @@ public class ColorChanger : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && player.IsGrounded)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             curentColor = GetNextEnumColor(curentColor);
             CubeSwapColors(curentColor.ToString());
         }
     }
 
-
     // Функция принимает текущий цвет и возвращает следующей цвет в перечислении
     private ColorState GetNextEnumColor(ColorState currentState)
     {
-        switch (currentState)
+        int current = (int)currentState;
+        int next = current * 2;
+
+        while (true)
         {
-            case ColorState.White: return ColorState.Green;
-            case ColorState.Green: return ColorState.Red;
-            case ColorState.Red: return ColorState.Blue;
-            case ColorState.Blue: return ColorState.Yellow;
-            case ColorState.Yellow: return ColorState.White;
-            default: return ColorState.White;
+            if (next > 16)
+                next = 1;
+            if (colors.HasFlag((ColorState)next))
+            {
+                return (ColorState)next;
+            }
+            next = next * 2;
         }
     }
 
@@ -115,6 +115,8 @@ public class ColorChanger : MonoBehaviour
 
         if (selectedObject.TryGetComponent(out Colorable target))
         {
+            if (target.tag == "Dark")
+                return;
             if (tempObject == null)
             {
                 tempObject = target;
@@ -130,13 +132,14 @@ public class ColorChanger : MonoBehaviour
     // Функция меняет цвет у двух выбранных объектов
     private void SwapColors(Colorable first, Colorable second)
     {
-        Material tempColor = first.Color;
-        first.SetColor(second.Color);
-        second.SetColor(tempColor);
+        if (first.CompareTag("Dark") || second.CompareTag("Dark"))
+            return;
 
+        Material tempColor = first.Color;
         string tempTag = first.tag;
-        first.tag = second.tag;
-        second.tag = tempTag;
+        
+        first.SetColor(second.Color,second.tag);
+        second.SetColor(tempColor,tempTag);
 
         CubeSwapColors(curentColor.ToString());
         AudioManager.PlaySound("ink");

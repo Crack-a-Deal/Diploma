@@ -4,51 +4,50 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu :MonoBehaviour
 {
-    private VisualElement pausePanel;
-    private VisualElement _mainMenu;
-    private VisualElement _settings;
-    private void Awake()
+    private VisualElement _pausePanel;
+    private VisualElement _settingsPanel;
+
+    private void OnEnable()
     {
-        PauseController.OnPause += Show;
-        PauseController.OnResume += Close;
+        PauseManager.OnPause += Show;
+        PauseManager.OnResume += Close;
     }
+    private void OnDisable()
+    {
+        PauseManager.OnPause -= Show;
+        PauseManager.OnResume -= Close;
+    }
+
     private void Start()
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
-        pausePanel = root.Q<VisualElement>("PausePanel");
-        _mainMenu = root.Q<VisualElement>("Main");
-        _settings = root.Q<VisualElement>("SettingsPanel");
+        _pausePanel = root.Q<VisualElement>("PausePanel");
+        _settingsPanel = root.Q<VisualElement>("SettingsPanel");
 
         Label resume = root.Q<Label>("resumeLabel");
         Label settings = root.Q<Label>("settingsLabel");
         Label restart = root.Q<Label>("restartLabel");
         Label exit = root.Q<Label>("exitLabel");
 
-        //resume.RegisterCallback<ClickEvent>(evt => PauseController.OnResume?.Invoke());
-        settings.RegisterCallback<ClickEvent>(evt => TogglePanels(_settings,pausePanel));
-        restart.RegisterCallback<ClickEvent>(evt => Debug.Log("Restart"));
-        exit.RegisterCallback<ClickEvent>(evt => SceneManager.LoadScene(0));
+        Label s_Back = _settingsPanel.Q<VisualElement>("MainPanel").Q<Label>("Back");
+        s_Back.RegisterCallback<ClickEvent>(evt => _settingsPanel.Open(_pausePanel));
 
-        SettingsPanel sett = new SettingsPanel(_settings);
+        resume.RegisterCallback<ClickEvent>(evt => PauseManager.Resume());
+        settings.RegisterCallback<ClickEvent>(evt => _pausePanel.Open(_settingsPanel));
+        restart.RegisterCallback<ClickEvent>(evt => LevelManager.RestartLevel());
+        exit.RegisterCallback<ClickEvent>(evt => LevelManager.LoadLevelById(0));
+
+        SettingsPanel sett = new SettingsPanel(_settingsPanel);
     }
     private void Show()
     {
-        _mainMenu.Display(false);
-        _settings.Display(false);
-
-        pausePanel.Display(true);
+        _settingsPanel.Display(false);
+        _pausePanel.Display(true);
     }
     private void Close()
     {
-        _mainMenu.Display(false);
-        _settings.Display(false);
-
-        pausePanel.Display(false);
-    }
-    private void TogglePanels(VisualElement elemet, VisualElement element2)
-    {
-        elemet.Display(true);
-        element2.Display(false);
+        _settingsPanel.Display(false);
+        _pausePanel.Display(false);
     }
 }

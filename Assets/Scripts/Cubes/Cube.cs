@@ -9,7 +9,12 @@ public class Cube : Colorable
     [SerializeField] private float moveTime;
     [SerializeField] private float moveHeight;
     [SerializeField] private float latency;
+    [Header("Dark")]
+    [SerializeField] private Material darkMaterial;
+    [SerializeField] private float darkTime;
 
+
+    [SerializeField] private bool isDark;
     private bool isMoving = false;
     private Coroutine coroutine;
       
@@ -17,7 +22,11 @@ public class Cube : Colorable
     private Vector3 startPosition;
     private void Start()
     {
+        defaultColor = Color;
+        defaultTag = tag;
         startPosition = transform.position;
+        if (isDark)
+            StartCoroutine(DarkCube());
     }
 
     private void Update()
@@ -77,7 +86,6 @@ public class Cube : Colorable
     {
         Material materia = GetComponent<MeshRenderer>().sharedMaterial;
         materia.SetFloat("_Transparent", transparent);
-        OnTransparencyChanged?.Invoke();
         if (transparent == 1)
         {
             gameObject.layer = 6;
@@ -85,6 +93,20 @@ public class Cube : Colorable
         else
         {
             gameObject.layer = 4;
+        }
+    }
+    private IEnumerator DarkCube()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(darkTime);
+            Color = darkMaterial;
+            tag = "Dark";
+            SetTransparent(0.5f);
+
+            yield return new WaitForSeconds(darkTime);
+            SetColor(defaultColor, defaultTag);
+            SetTransparent(1f);
         }
     }
 }

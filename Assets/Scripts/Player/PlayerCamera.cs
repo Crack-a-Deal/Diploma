@@ -10,10 +10,15 @@ public class PlayerCamera : MonoBehaviour
     private Vector2 mouseRotation;
     [SerializeField] private bool isCursorLock;
 
-    private void Awake()
+    private void OnEnable()
     {
-        PauseController.OnPause += ShowCursor;
-        PauseController.OnResume += ShowCursor;
+        PauseManager.OnPause += ShowCursor;
+        PauseManager.OnResume += ShowCursor;
+    }
+    private void OnDisable()
+    {
+        PauseManager.OnPause -= ShowCursor;
+        PauseManager.OnResume -= ShowCursor;
     }
     private void Start()
     {

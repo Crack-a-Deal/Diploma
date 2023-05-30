@@ -341,3 +341,6 @@ MonoBehaviour:
   moveTime: 3
   moveHeight: 5
   latency: 1
+  darkMaterial: {fileID: 2100000, guid: 46658e769affea149aa12470264bb1a0, type: 2}
+  darkTime: 2.2
+  isDark: 0

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
-public class Door : Colorable
+public class Door : MonoBehaviour
 {
     public bool IsOpen = false;
     [SerializeField] private float Speed = 1f;

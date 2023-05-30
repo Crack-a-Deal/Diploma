@@ -30,4 +30,16 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(currentLevel);
         OnLevelComplete?.Invoke();
     }
+    public static void LoadLevelById(int id)
+    {
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(id);
+        OnLevelComplete?.Invoke();
+    }
+    public static void RestartLevel()
+    {
+        SceneManager.LoadScene(currentLevel);
+        PauseManager.Resume();
+        OnLevelComplete?.Invoke();
+    }
 }
