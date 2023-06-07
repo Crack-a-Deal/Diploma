@@ -1,8 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:Template name="MainPanel" src="project://database/Assets/Tools/UI%20Toolkit/Panels/Main.uxml?fileID=9197481963319205126&amp;guid=3ae50dc050686ff44b9b6b7534e1e242&amp;type=3#Main" />
-    <ui:Template name="SettingsPanel" src="project://database/Assets/Tools/UI%20Toolkit/Panels/Settings.uxml?fileID=9197481963319205126&amp;guid=cd10f784f4afa9d4bb8f29616853efa8&amp;type=3#Settings" />
-    <ui:Template name="About" src="project://database/Assets/Tools/UI%20Toolkit/Panels/About.uxml?fileID=9197481963319205126&amp;guid=04db6429c592939468897e15073cc51c&amp;type=3#About" />
-    <ui:Instance template="MainPanel" name="Main" style="flex-grow: 1; display: flex;" />
-    <ui:Instance template="SettingsPanel" name="SettingsPanel" style="flex-grow: 1; display: none;" />
-    <ui:Instance template="About" name="AboutPanel" style="flex-grow: 1; display: none;" />
-</ui:UXML>

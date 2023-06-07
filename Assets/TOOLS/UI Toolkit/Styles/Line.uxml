@@ -1,3 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="Line" style="background-color: rgb(255, 0, 0); height: 6px; width: 187px;" />
-</ui:UXML>
